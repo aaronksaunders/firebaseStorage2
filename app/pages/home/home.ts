@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, Platform} from 'ionic-angular';
 
 import {Camera} from 'ionic-native';
 
@@ -7,18 +7,21 @@ import * as firebase from 'firebase';
 
 import 'whatwg-fetch';
 
+declare var window: any;
+
+
 @Component({
   templateUrl: 'build/pages/home/home.html'
 })
 export class HomePage {
- 
+
   assetCollection: any;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public platform: Platform) {
 
     // initialize firebase
     var config = {
-
+      // ADD IN YOUR CONFIGURATION
     };
     firebase.initializeApp(config);
   }
@@ -68,11 +71,39 @@ export class HomePage {
   }
 
   makeFileIntoBlob(_imagePath) {
-    return fetch(_imagePath).then((_response) => {
-      return _response.blob();
-    }).then((_blob) => {
-      return _blob;
-    });
+
+    // INSTALL PLUGIN - cordova plugin add cordova-plugin-file
+    if (this.platform.is('android')) {
+      return new Promise((resolve, reject) => {
+        window.resolveLocalFileSystemURL(_imagePath, (fileEntry) => {
+
+          fileEntry.file((resFile) => {
+
+            var reader = new FileReader();
+            reader.onloadend = (evt: any) => {
+              var imgBlob: any = new Blob([evt.target.result], { type: 'image/jpeg' });
+              imgBlob.name = 'sample.jpg';
+              resolve(imgBlob);
+            };
+
+            reader.onerror = (e) => {
+              console.log('Failed file read: ' + e.toString());
+              reject(e);
+            };
+
+            reader.readAsArrayBuffer(resFile);
+          });
+        });
+      });
+    } else {
+      return fetch(_imagePath).then((_response) => {
+        return _response.blob();
+      }).then((_blob) => {
+        return _blob;
+      }).catch((_error) => {
+        alert(JSON.stringify(_error.message));
+      });
+    }
   }
 
   uploadToFirebase(_imageBlob) {
