@@ -10,11 +10,12 @@
 </ion-header>
 
 <ion-content padding>
+
   <ion-list>
-    <ion-item *ngFor="let item of assetCollection; let i = index; trackBy:index">
-      <p>{{i}} - {{item.name}}</p>
-      <p>{{item.lastUpdated}}</p>
-      <img [src]=item.URL width="180px" class="padding"/>
+
+    <ion-item *ngFor="let item of assetCollection ; trackBy:trackByFunction">
+      <item-component [item]="item"></item-component>
     </ion-item>
   </ion-list>
+
 </ion-content>
