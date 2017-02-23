@@ -26,6 +26,20 @@ export const firebaseConfig = {
     messagingSenderId: "8000000000003"
 };
 ```
+### User authentication
+The sample application used email authentication so make sure you configure it in the firebase console.
+
+To simplify this solution, I have hardcoded the user that is used for authentication; you will need to add that user or create your own and modify the code.
+
+https://github.com/aaronksaunders/firebaseStorage2/blob/master/src/pages/home/home.ts#L36
+
+```javascript
+firebase.auth().signInWithEmailAndPassword('newuser@mail.com', 'password')
+```
+
+### Plugins are required
+The application requires specific plugins to work so please be sure to run `ionic state restore` before trying to run the sample. This should reload the necessary plugins.
+
 **[Video not Updated Yet]** source code for youtube video on Ionic2 &amp; Firebase Image Upload
 
 - [https://www.youtube.com/watch?v=6yGrLWq-oIo](https://www.youtube.com/watch?v=6yGrLWq-oIo)
