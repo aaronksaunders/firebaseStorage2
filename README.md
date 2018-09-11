@@ -1,7 +1,8 @@
 # firebaseStorage2
 
-### Updated 09-11-2018 to support Ionic v4 and latest version of firebase
+## Updated 09-11-2018 to support Ionic v4 and latest version of firebase
 - see link here https://github.com/aaronksaunders/ionic4-firebase-storage
+---
 
 ### Updated 1/26/2017 to support latest version of Ionic2
 
